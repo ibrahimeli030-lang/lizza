@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f5f3ff;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 50px;
+  width: 100%;
+  max-width: 620px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.search-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #f3f4f6;
+  font-size: 16px;
+  color: #374151;
+  outline: none;
+  transition: background 0.2s;
+}
+
+.search-box input::placeholder {
+  color: #9ca3af;
+}
+
+.search-box input:focus {
+  background: #e5e7eb;
+}
+
+.search-box button {
+  padding: 14px 32px;
+  background: #8b5cf6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-box button:hover {
+  background: #7c3aed;
+}
+
+.weather-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.weather-main {
+  flex: 1;
+  padding-top: 5px;
+}
+
+.city {
+  font-size: 48px;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.5px;
+}
+
+.details {
+  font-size: 16px;
+  color: #9ca3af;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.meta {
+  font-size: 16px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.highlight {
+  color: #ec4899;
+  font-weight: 600;
+}
+
+.weather-temp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.temp {
+  font-size: 96px;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.degree {
+  font-size: 28px;
+  vertical-align: super;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.footer a {
+  color: #8b5cf6;
+  text-decoration: underline;
+}

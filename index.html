@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Malizza</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="search-box">
+        <input type="text" id="city-input" placeholder="Enter a city.." />
+        <button id="search-btn">Search</button>
+      </div>
+
+      <div class="weather-display">
+        <div class="weather-main">
+          <h1 class="city" id="city">Paris</h1>
+          <p class="details" id="details">Monday 6:45, overcast clouds</p>
+          <p class="meta">
+            Humidity: <span class="highlight" id="humidity">41%</span>, Wind:
+            <span class="highlight" id="wind">7.2km/h</span>
+          </p>
+        </div>
+        <div class="weather-temp">
+          <div class="icon" id="weather-icon">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 80 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <ellipse cx="55" cy="30" rx="12" ry="8" fill="#BFDBFE" />
+              <ellipse cx="35" cy="35" rx="18" ry="12" fill="#F3F4F6" />
+              <ellipse cx="55" cy="40" rx="15" ry="10" fill="#F3F4F6" />
+              <ellipse cx="25" cy="45" rx="14" ry="9" fill="#F3F4F6" />
+              <ellipse cx="45" cy="48" rx="16" ry="10" fill="#F3F4F6" />
+            </svg>
+          </div>
+          <div class="temp" id="temp">23<span class="degree">°C</span></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      This project was coded by
+      <a href="https://github.com/ibrahimeli030-lang" target="_blank"
+        >Ojochide Ibrahim</a
+      >, is
+      <a href="https://github.com/ibrahimeli030-lang/lizza" target="_blank"
+        >open-sourced on GitHub</a
+      >
+      and
+      <a
+        href="https://app.netlify.com/projects/harmonious-crepe-73420f/deploys"
+        target="_blank"
+        >hosted on Netlify</a
+      >
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
