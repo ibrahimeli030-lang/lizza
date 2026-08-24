@@ -20,7 +20,7 @@ body {
 .card {
   background: #ffffff;
   border-radius: 16px;
-  padding: 40px 50px;
+  padding: 40px 50px 50px;
   width: 100%;
   max-width: 620px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
@@ -132,6 +132,46 @@ body {
   vertical-align: super;
   font-weight: 400;
   margin-left: 2px;
+}
+
+.forecast {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.forecast-day {
+  text-align: center;
+  flex: 1;
+}
+
+.day-name {
+  font-size: 15px;
+  color: #9ca3af;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.forecast-icon {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.forecast-temps {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.forecast-temps .high {
+  color: #ec4899;
+  margin-right: 10px;
+}
+
+.forecast-temps .low {
+  color: #9ca3af;
 }
 
 .footer {

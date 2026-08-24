@@ -6,6 +6,7 @@ const humidityEl = document.getElementById("humidity");
 const windEl = document.getElementById("wind");
 const tempEl = document.getElementById("temp");
 const iconEl = document.getElementById("weather-icon");
+const forecastEl = document.getElementById("forecast");
 
 const weatherCodes = {
   0: { desc: "clear sky", icon: "sun" },
@@ -14,12 +15,12 @@ const weatherCodes = {
   3: { desc: "overcast clouds", icon: "cloud" },
   45: { desc: "fog", icon: "cloud" },
   48: { desc: "depositing rime fog", icon: "cloud" },
-  51: { desc: "light drizzle", icon: "rain" },
-  53: { desc: "moderate drizzle", icon: "rain" },
+  51: { desc: "light drizzle", icon: "partly-cloudy-rain" },
+  53: { desc: "moderate drizzle", icon: "partly-cloudy-rain" },
   55: { desc: "dense drizzle", icon: "rain" },
-  56: { desc: "light freezing drizzle", icon: "rain" },
+  56: { desc: "light freezing drizzle", icon: "partly-cloudy-rain" },
   57: { desc: "dense freezing drizzle", icon: "rain" },
-  61: { desc: "slight rain", icon: "rain" },
+  61: { desc: "slight rain", icon: "partly-cloudy-rain" },
   63: { desc: "moderate rain", icon: "rain" },
   65: { desc: "heavy rain", icon: "rain" },
   66: { desc: "light freezing rain", icon: "rain" },
@@ -28,8 +29,8 @@ const weatherCodes = {
   73: { desc: "moderate snow", icon: "snow" },
   75: { desc: "heavy snow", icon: "snow" },
   77: { desc: "snow grains", icon: "snow" },
-  80: { desc: "slight rain showers", icon: "rain" },
-  81: { desc: "moderate rain showers", icon: "rain" },
+  80: { desc: "slight rain showers", icon: "partly-cloudy-rain" },
+  81: { desc: "moderate rain showers", icon: "partly-cloudy-rain" },
   82: { desc: "violent rain showers", icon: "rain" },
   85: { desc: "slight snow showers", icon: "snow" },
   86: { desc: "heavy snow showers", icon: "snow" },
@@ -49,6 +50,14 @@ const icons = {
         <ellipse cx="55" cy="45" rx="15" ry="10" fill="#F3F4F6"/>
         <ellipse cx="25" cy="50" rx="14" ry="9" fill="#F3F4F6"/>
         <ellipse cx="45" cy="53" rx="16" ry="10" fill="#F3F4F6"/>
+    </svg>`,
+  "partly-cloudy-rain": `<svg width="50" height="50" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="56" cy="22" r="9" fill="#fbbf24"/>
+        <ellipse cx="34" cy="34" rx="17" ry="11" fill="#F3F4F6"/>
+        <ellipse cx="54" cy="39" rx="14" ry="9" fill="#F3F4F6"/>
+        <ellipse cx="24" cy="43" rx="13" ry="8" fill="#F3F4F6"/>
+        <ellipse cx="44" cy="46" rx="15" ry="9" fill="#F3F4F6"/>
+        <path d="M26 58l-2 4M36 58l-2 4M46 58l-2 4M56 58l-2 4" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/>
     </svg>`,
   cloud: `<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="55" cy="30" rx="12" ry="8" fill="#BFDBFE"/>
@@ -100,6 +109,43 @@ function formatDate() {
   return `${day} ${hours}:${minutes}`;
 }
 
+function getDayName(dateStr) {
+  const date = new Date(dateStr + "T00:00:00");
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[date.getDay()];
+}
+
+function renderForecast(daily) {
+  forecastEl.innerHTML = "";
+  const count = Math.min(5, daily.time.length);
+
+  for (let i = 0; i < count; i++) {
+    const code = daily.weather_code[i];
+    const max = Math.round(daily.temperature_2m_max[i]);
+    const min = Math.round(daily.temperature_2m_min[i]);
+    const dayName = getDayName(daily.time[i]);
+    const info = weatherCodes[code] || { icon: "cloud" };
+    let iconSvg = icons[info.icon] || icons.cloud;
+
+    // Resize forecast icons to 50px
+    iconSvg = iconSvg
+      .replace(/width="80"/g, 'width="50"')
+      .replace(/height="80"/g, 'height="50"');
+
+    const dayDiv = document.createElement("div");
+    dayDiv.className = "forecast-day";
+    dayDiv.innerHTML = `
+            <div class="day-name">${dayName}</div>
+            <div class="forecast-icon">${iconSvg}</div>
+            <div class="forecast-temps">
+                <span class="high">${max}°</span>
+                <span class="low">${min}°</span>
+            </div>
+        `;
+    forecastEl.appendChild(dayDiv);
+  }
+}
+
 async function getWeather(city) {
   try {
     const geoRes = await fetch(
@@ -115,7 +161,7 @@ async function getWeather(city) {
     const { latitude, longitude, name } = geoData.results[0];
 
     const weatherRes = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`,
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
     );
     const weatherData = await weatherRes.json();
     const current = weatherData.current;
@@ -131,6 +177,8 @@ async function getWeather(city) {
     windEl.textContent = `${current.wind_speed_10m}km/h`;
     tempEl.innerHTML = `${Math.round(current.temperature_2m)}<span class="degree">°C</span>`;
     iconEl.innerHTML = icons[info.icon] || icons.cloud;
+
+    renderForecast(weatherData.daily);
   } catch (error) {
     console.error(error);
     alert("Error fetching weather data. Please try again.");
